@@ -1,0 +1,25 @@
+{
+  "name": "micro-js",
+  "version": "0.0.1",
+  "description": "A small utility library",
+  "main": "src/micro.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ihansson/micro-js.git"
+  },
+  "keywords": [
+    "typescript",
+    "javascript",
+    "utility"
+  ],
+  "author": "Ian Hansson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ihansson/micro-js/issues"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
