@@ -8,7 +8,7 @@
     "url": "git+https://github.com/ihansson/micro-js.git"
   },
   "scripts": {
-    "watch": "tsc"
+    "watch": "tsc --watch"
   },
   "keywords": [
     "typescript",
