@@ -59,9 +59,9 @@ class MicroList extends Array<HTMLElement> {
 		return false;
 	}
 
-	set_style(attribute: any, value: string): MicroList {
+	set_style(attribute: any, value: string | number): MicroList {
 		return this._map((el: HTMLElement): HTMLElement => {
-			el.style[attribute] = value; 
+			el.style[attribute] = (<string>value); 
 			return el; 
 		});
 	}
@@ -134,7 +134,31 @@ class MicroList extends Array<HTMLElement> {
 		});
 	}
 
-	// ? Animation
+	// Animation
+	// @todo
+	// This is only animating from 0=>1 at the moment
+
+	animate(properties: object, duration: number, cb: (micro: MicroList) => any): MicroList {
+		const _micro = this;
+		const time = Date.now();
+		const _func = function(){
+			const elapsed_time = Date.now() - time;
+			let animation_state = (1 / duration) * elapsed_time;
+			if(animation_state > 1) animation_state = 1;
+			for (let index = 0; index < Object.keys(properties).length; index++) {
+				let key = Object.keys(properties)[index];
+				let value = (<any>properties)[key] * animation_state;
+				_micro.set_style(key, value)
+			}
+			if(elapsed_time <= duration){
+				window.requestAnimationFrame(_func);
+			} else {
+				cb(_micro)
+			}
+		}
+		window.requestAnimationFrame(_func);
+		return this;
+	}
 
     // Utility
 
