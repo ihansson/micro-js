@@ -1,7 +1,7 @@
 {
   "name": "micro-js",
   "version": "0.0.1",
-  "description": "A small utility library",
+  "description": "A dom utility library",
   "main": "src/micro.ts",
   "repository": {
     "type": "git",

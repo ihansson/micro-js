@@ -15,9 +15,9 @@
 		<script>
 
 			const el = Find('#example')
-			console.log(el.check())
-			const els = Find('.examples')
-			console.log(els)
+			console.log(el)
+			const els = Find('.examples').add_class('banana').add_class('banana2').remove_class('banana')
+			console.log(els.has_class('banana2'))
 
 		</script>
 	</body>

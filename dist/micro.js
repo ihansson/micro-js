@@ -18,9 +18,36 @@ var MicroList = /** @class */ (function (_super) {
         Object.setPrototypeOf(_this, Object.create(MicroList.prototype));
         return _this;
     }
-    MicroList.prototype.check = function () {
-        console.log('hello');
-        return this;
+    MicroList.prototype._map = function (fn) {
+        var results = new MicroList();
+        for (var index = 0; index < this.length; index++) {
+            results.push(fn(this[index], index));
+        }
+        return results;
+    };
+    MicroList.prototype.add_class = function (class_name) {
+        return this._map(function (el) {
+            el.classList.add(class_name);
+            return el;
+        });
+    };
+    MicroList.prototype.remove_class = function (class_name) {
+        return this._map(function (el) {
+            el.classList.remove(class_name);
+            return el;
+        });
+    };
+    MicroList.prototype.toggle_class = function (class_name) {
+        return this._map(function (el) {
+            el.classList.toggle(class_name);
+            return el;
+        });
+    };
+    MicroList.prototype.has_class = function (class_name) {
+        for (var index = 0; index < this.length; index++) {
+        	if(this[index].classList.contains(class_name)) return true;
+        }
+        return false;
     };
     return MicroList;
 }(Array));
