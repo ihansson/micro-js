@@ -132,20 +132,23 @@ var MicroList = /** @class */ (function (_super) {
         });
     };
     // Animation
-    // @todo
-    // This is only animating from 0=>1 at the moment
     MicroList.prototype.animate = function (properties, duration, cb) {
         var _micro = this;
         var time = Date.now();
         var _func = function () {
             var elapsed_time = Date.now() - time;
-            var animation_state = (1 / duration) * elapsed_time;
+            var animation_state = _micro.ease((1 / duration) * elapsed_time);
             if (animation_state > 1)
                 animation_state = 1;
             for (var index = 0; index < Object.keys(properties).length; index++) {
                 var key = Object.keys(properties)[index];
-                var value = properties[key] * animation_state;
-                _micro.set_style(key, value);
+                var range = properties[key][1] - properties[key][0];
+                var value = (range * animation_state) + properties[key][0];
+                var suffix = 'px';
+                if (['opacity'].indexOf(key) !== -1) {
+                    suffix = '';
+                }
+                _micro.set_style(key, value + suffix);
             }
             if (elapsed_time <= duration) {
                 window.requestAnimationFrame(_func);
@@ -157,6 +160,7 @@ var MicroList = /** @class */ (function (_super) {
         window.requestAnimationFrame(_func);
         return this;
     };
+    MicroList.prototype.ease = function (t) { return t < .5 ? 2 * t * t : -1 + (4 - 2 * t) * t; };
     // Utility
     MicroList.prototype._map = function (fn) {
         var results = new MicroList();

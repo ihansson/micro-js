@@ -135,20 +135,23 @@ class MicroList extends Array<HTMLElement> {
 	}
 
 	// Animation
-	// @todo
-	// This is only animating from 0=>1 at the moment
 
 	animate(properties: object, duration: number, cb: (micro: MicroList) => any): MicroList {
 		const _micro = this;
 		const time = Date.now();
 		const _func = function(){
 			const elapsed_time = Date.now() - time;
-			let animation_state = (1 / duration) * elapsed_time;
+			let animation_state = _micro.ease((1 / duration) * elapsed_time);
 			if(animation_state > 1) animation_state = 1;
 			for (let index = 0; index < Object.keys(properties).length; index++) {
-				let key = Object.keys(properties)[index];
-				let value = (<any>properties)[key] * animation_state;
-				_micro.set_style(key, value)
+				let key: string = Object.keys(properties)[index];
+				let range: number = (<any>properties)[key][1] - (<any>properties)[key][0];
+				let value: number = (range * animation_state) + (<any>properties)[key][0];
+				let suffix: string = 'px';
+				if(['opacity'].indexOf(key) !== -1){
+					suffix = '';
+				}
+				_micro.set_style(key, value + suffix)
 			}
 			if(elapsed_time <= duration){
 				window.requestAnimationFrame(_func);
@@ -159,6 +162,8 @@ class MicroList extends Array<HTMLElement> {
 		window.requestAnimationFrame(_func);
 		return this;
 	}
+
+ 	ease(t: number): number { return t<.5 ? 2*t*t : -1+(4-2*t)*t }
 
     // Utility
 

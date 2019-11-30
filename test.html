@@ -45,9 +45,10 @@
 			})
 
 
-			let promise = text.animate({
-				opacity: 1
-			}, 1500, function(){
+			text.set_style('position', 'relative').animate({
+				opacity: [0,1],
+				left: [-150,150]
+			}, 500, function(){
 				console.log('done')
 			})
 
