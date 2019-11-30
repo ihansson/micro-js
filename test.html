@@ -8,16 +8,41 @@
 		<title>Test</title>
 	</head>
 	<body>
-		<div id="example"></div>
-		<div class="examples"></div>
-		<div class="examples"></div>
+		<div id="example">a
+			<button class="target"></button>
+		</div>
+		<div class="examples">b</div>
+		<div class="examples">c</div>
+
+		<select class="form-select">
+			<option>Test</option>
+			<option selected>Test 2</option>
+		</select>
+
+		<input class="form-text" value="banan" type="text" />
+
 		<script type="text/javascript" src="dist/micro.js"></script>
 		<script>
 
-			const el = Find('#example')
+			const el = Micro('#example')
+
+			el.delegate('.target', 'click', function(e){
+				console.log('delegated',e);
+			});
+
 			console.log(el)
-			const els = Find('.examples').add_class('banana').add_class('banana2').remove_class('banana')
+			const els = Micro('.examples').add_class('banana').add_class('banana2').remove_class('banana')
 			console.log(els.has_class('banana2'))
+			els.set_style('color', 'red').set_html('banana2').append('<i>test</i>')
+
+			const select = Micro('.form-select')
+			console.log(select.value())
+
+			const text = Micro('.form-text')
+			console.log(text.value())
+			text.bind('click', function(e){
+				console.log('click', e)
+			})
 
 		</script>
 	</body>

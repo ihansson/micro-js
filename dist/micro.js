@@ -18,13 +18,7 @@ var MicroList = /** @class */ (function (_super) {
         Object.setPrototypeOf(_this, Object.create(MicroList.prototype));
         return _this;
     }
-    MicroList.prototype._map = function (fn) {
-        var results = new MicroList();
-        for (var index = 0; index < this.length; index++) {
-            results.push(fn(this[index], index));
-        }
-        return results;
-    };
+    // Class
     MicroList.prototype.add_class = function (class_name) {
         return this._map(function (el) {
             el.classList.add(class_name);
@@ -50,9 +44,106 @@ var MicroList = /** @class */ (function (_super) {
         }
         return false;
     };
+    // Attributes
+    MicroList.prototype.get_attribute = function (attribute) {
+        for (var index = 0; index < this.length; index++) {
+            var attr = this[index].getAttribute(attribute);
+            if (attr)
+                return attr;
+        }
+        return false;
+    };
+    MicroList.prototype.set_attribute = function (attribute, value) {
+        return this._map(function (el) {
+            el.setAttribute(attribute, value);
+            return el;
+        });
+    };
+    // Styles
+    MicroList.prototype.get_style = function (attribute) {
+        for (var index = 0; index < this.length; index++) {
+            var attr = this[index].style[attribute];
+            if (attr)
+                return attr;
+        }
+        return false;
+    };
+    MicroList.prototype.set_style = function (attribute, value) {
+        return this._map(function (el) {
+            el.style[attribute] = value;
+            return el;
+        });
+    };
+    // Content
+    MicroList.prototype.set_html = function (html) {
+        return this._map(function (el) {
+            el.innerHTML = html;
+            return el;
+        });
+    };
+    MicroList.prototype.set_text = function (text) {
+        return this._map(function (el) {
+            el.innerHTML = '';
+            el.appendChild(document.createTextNode(text));
+            return el;
+        });
+    };
+    MicroList.prototype.append = function (html) {
+        return this._map(function (el) {
+            el.innerHTML = html + el.innerHTML;
+            return el;
+        });
+    };
+    MicroList.prototype.prepend = function (html) {
+        return this._map(function (el) {
+            el.innerHTML = el.innerHTML + html;
+            return el;
+        });
+    };
+    // Form Value
+    MicroList.prototype.value = function () {
+        var values = [];
+        for (var index = 0; index < this.length; index++) {
+            values.push(this[index].value);
+        }
+        return values.length > 1 ? values : values[0];
+    };
+    // Events
+    MicroList.prototype.bind = function (event, fn) {
+        return this._map(function (el) {
+            el.addEventListener(event, fn);
+            return el;
+        });
+    };
+    MicroList.prototype.unbind = function (event, fn) {
+        return this._map(function (el) {
+            el.removeEventListener(event, fn);
+            return el;
+        });
+    };
+    MicroList.prototype.delegate = function (target, event, fn) {
+        return this._map(function (el) {
+            el.addEventListener(event, function (e) {
+                if (e.target.matches(target)) {
+                    fn(e);
+                }
+            });
+            return el;
+        });
+    };
+    // ? Animation
+    // Utility
+    MicroList.prototype._map = function (fn) {
+        var results = new MicroList();
+        for (var index = 0; index < this.length; index++) {
+            results.push(fn(this[index], index));
+        }
+        return results;
+    };
     return MicroList;
 }(Array));
-function Find(selector) {
+// Search
+function Micro(selector) {
     var els = document.querySelectorAll(selector);
     return new MicroList(Array.prototype.slice.call(els));
 }
