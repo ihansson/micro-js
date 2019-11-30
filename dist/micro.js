@@ -45,7 +45,8 @@ var MicroList = /** @class */ (function (_super) {
     };
     MicroList.prototype.has_class = function (class_name) {
         for (var index = 0; index < this.length; index++) {
-        	if(this[index].classList.contains(class_name)) return true;
+            if (this[index].classList.contains(class_name))
+                return true;
         }
         return false;
     };

@@ -29,10 +29,11 @@ class MicroList extends Array<Element> {
 			return el; 
 		});
 	}
-	contains_class(class_name: string): MicroList {
-		return this._map((el: Element): boolean => { 
-			return el.classList.contains(class_name); 
-		});
+	has_class(class_name: string): boolean {
+		for (let index = 0; index < this.length; index++) {
+			if(this[index].classList.contains(class_name)) return true;
+		}
+		return false;
 	}
 }
 
